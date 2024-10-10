@@ -1,0 +1,3 @@
+# neovim clangd flags
+-I./source
+-I./include
