@@ -13,7 +13,7 @@ gcc -I./include -I./source source/main.c \
   source/include/interface/ui.c \
   source/include/data.c source/include/csv.c source/include/lock.c \
   source/include/sort.c \
-  -o ./bin/csvc -ltermbox $*
+  -o ./bin/csvc-$(uname -m)-$(uname -s) -static -Wl,-Bstatic -ltermbox $*
 
 if [ $? -eq 0 ] ; then
   echo "Compiled successfully."
