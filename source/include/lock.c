@@ -30,7 +30,7 @@ CheckLock(const char *Id)
   if ((File = fopen(LOCKFILE, "r")) == NULL)
     return 0;
 
-  while (fgets(input, 256, File) != NULL)
+  while (fscanf(File, "%s", &input[0]) != EOF)
   {
     if (! strcmp(input, Id))
     { fclose(File); return 1; }

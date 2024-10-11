@@ -7,8 +7,8 @@
 
 #define   LOCKFILE    "/tmp/csvc.lock"
 
-void      LockEntry(const char *Region);
-int8_t    CheckLock(const char *Region);
-void      UnlockEntry(const char *Region, cdata *Data);
+void      LockEntry(const char *Id);
+int8_t    CheckLock(const char *Id);
+void      UnlockEntry(const char *Id, cdata *Data);
 
 #endif

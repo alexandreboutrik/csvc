@@ -23,7 +23,7 @@ ChangeTo(cdata *Data, int8_t SCREEN)
 
   if (SCREEN == SCREEN_MODIFY)
   {
-    if (CheckLock(Data->Table[Data->sy].Region))
+    if (CheckLock(Data->Table[Data->sy].Id))
       SCREEN = SCREEN_AOE;
     else if (Data->sx == 0)
     {
@@ -35,7 +35,7 @@ ChangeTo(cdata *Data, int8_t SCREEN)
     {
       Data->bp = strlen(Data->Table[Data->sy].Region);
       strcpy(Data->buffer, Data->Table[Data->sy].Region);
-      LockEntry(Data->buffer);
+      LockEntry(Data->Table[Data->sy].Id);
     }
   }
 
