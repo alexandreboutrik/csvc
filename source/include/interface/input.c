@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdint.h>
 
+#include "interface/draw.h"
 #include "interface/ui.h"
 #include "csv.h"
 #include "lock.h"
@@ -57,14 +58,20 @@ SaveToFile(const char *Filename, cdata *Data)
   /* this function is only called after SCREEN_MODIFY, so unlock the entry */
   UnlockEntry(Data->Table[Data->sy].Id, Data);
 
-  if (Data->sx == 0)
-    strcpy(Data->Table[Data->sy].Id, Data->buffer);
+  if (! CheckDuplicated(Data))
+  {
+    if (Data->sx == 0)
+      strcpy(Data->Table[Data->sy].Id, Data->buffer);
 
-  if (Data->sx == 1)
-    strcpy(Data->Table[Data->sy].Region, Data->buffer);
+    if (Data->sx == 1)
+      strcpy(Data->Table[Data->sy].Region, Data->buffer);
 
-  SaveCSV(Filename, Data);
-  Data->Screen = SCREEN_MENU;
+    SaveCSV(Filename, Data);
+
+    Data->Screen = SCREEN_MENU;
+  } else {
+    Data->Screen = SCREEN_DUPLICATED;
+  }
 }
 
 extern void
