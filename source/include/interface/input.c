@@ -116,7 +116,7 @@ HandleKey(const char *Filename, cdata *Data)
         ZeroBuffer(Data);
         if (Data->Screen == SCREEN_ADD_ID)
           Data->Screen = SCREEN_ADD_REGION; 
-        if (Data->Screen == SCREEN_ADD_REGION)
+        else  if (Data->Screen == SCREEN_ADD_REGION)
           Data->Screen = SCREEN_MENU;
         aux = 1;
       }
