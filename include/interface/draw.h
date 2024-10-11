@@ -9,6 +9,7 @@
 #define   SCREEN_ADD_REGION   3
 #define   SCREEN_DELETE       4
 #define   SCREEN_AOE          5
+#define   SCREEN_DUPLICATED   6
 
 /* Functions */
 void      DrawScreen(const char *Filename, cdata *Data);
@@ -19,5 +20,6 @@ void      DrawCreate_Id(const char *Filename, cdata *Data);
 void      DrawCreate_Region(const char *Filename, cdata *Data);
 void      DrawDelete(const char *Filename, cdata *Data);
 void      DrawAOE(const char *Filename, cdata *Data);
+void      DrawDuplicated(const char *Filename, cdata *Data);
 
 #endif

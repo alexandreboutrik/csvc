@@ -48,7 +48,7 @@ ChangeTo(cdata *Data, int8_t SCREEN)
 void
 SaveToFile(const char *Filename, cdata *Data)
 {
-  UnlockEntry(Data->Table[Data->sy].Region);
+  UnlockEntry(Data->Table[Data->sy].Id, Data);
 
   if (Data->sx == 0)
     strcpy(Data->Table[Data->sy].Id, Data->buffer);
@@ -85,7 +85,7 @@ HandleKey(const char *Filename, cdata *Data)
     case TB_KEY_ESC:
     case TB_KEY_CTRL_C:
       if (Data->Screen == SCREEN_MODIFY)
-      { UnlockEntry(Data->Table[Data->sy].Region);}
+      { UnlockEntry(Data->Table[Data->sy].Id, Data);}
       if (Data->Screen == SCREEN_MENU) { Quit(Data); }
       else { Data->Screen = SCREEN_MENU; }
       break;
@@ -108,14 +108,15 @@ HandleKey(const char *Filename, cdata *Data)
     case TB_KEY_ENTER:
       if (Data->Screen == SCREEN_MENU) { ChangeTo(Data, SCREEN_MODIFY); aux = 1; }
       else if (Data->Screen == SCREEN_MODIFY) { SaveToFile(Filename, Data); }
-      else if (Data->Screen == SCREEN_AOE) { Data->Screen = SCREEN_MENU; }
+      else if (Data->Screen == SCREEN_AOE || Data->Screen == SCREEN_DUPLICATED)
+      { Data->Screen = SCREEN_MENU; }
       else if (Data->Screen == SCREEN_ADD_ID || Data->Screen == SCREEN_ADD_REGION) 
       {
         AppendCSV(Filename, Data);
         ZeroBuffer(Data);
         if (Data->Screen == SCREEN_ADD_ID)
           Data->Screen = SCREEN_ADD_REGION; 
-        else 
+        if (Data->Screen == SCREEN_ADD_REGION)
           Data->Screen = SCREEN_MENU;
         aux = 1;
       }

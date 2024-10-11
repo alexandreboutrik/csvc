@@ -8,20 +8,20 @@
 #include "interface/ui.h"
 
 void
-LockEntry(const char *Region)
+LockEntry(const char *Id)
 {
   FILE *File;
 
   if ((File = fopen(LOCKFILE, "a+")) == NULL)
     Error(NULL, errno, "LockEntry fopen");
 
-  fprintf(File, "\n%s", Region);
+  fprintf(File, " %s", Id);
 
   fclose(File);
 }
 
 int8_t
-CheckLock(const char *Region)
+CheckLock(const char *Id)
 {
   FILE  *File;
   char   input[256];
@@ -32,7 +32,7 @@ CheckLock(const char *Region)
 
   while (fgets(input, 256, File) != NULL)
   {
-    if (! strcmp(input, Region))
+    if (! strcmp(input, Id))
     { fclose(File); return 1; }
   }
 
@@ -41,7 +41,7 @@ CheckLock(const char *Region)
 }
 
 void
-UnlockEntry(const char *Region)
+UnlockEntry(const char *Id, cdata *Data)
 {
   FILE *File;
   char  input[256][256];
@@ -55,7 +55,7 @@ UnlockEntry(const char *Region)
   if ((File = fopen(LOCKFILE, "w")) == NULL)
     Error(NULL, errno, "UnlockEntry fopen-w");
   for (j = 0; j < i; j++)
-    if (strcmp(input[j], Region))
+    if (strcmp(input[j], Id))
       fprintf(File, " %s", input[j]);
   fclose(File);
 }

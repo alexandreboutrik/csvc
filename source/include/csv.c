@@ -78,18 +78,34 @@ DeleteCSV(const char *Filename, cdata *Data)
   SaveCSV(Filename, Data);
 }
 
+int8_t
+CheckDuplicated(cdata *Data)
+{
+  int i;
+
+  for (i = 0; i < Data->Table_Size; i++)
+    if (! strcmp(Data->Table[i].Id, Data->buffer))
+      return 1;
+
+  return 0;
+}
+
 void
 AppendCSV(const char *Filename, cdata *Data)
 {
- // Data->Table_Size;
-
-  if (Data->Screen == SCREEN_ADD_ID)
-    strcpy(Data->Table[Data->Table_Size].Id, Data->buffer);
-  else
+  if (! CheckDuplicated(Data))
   {
-    strcpy(Data->Table[Data->Table_Size].Region, Data->buffer);
-    Data->Table_Size++;
-  }
+    if (Data->Screen == SCREEN_ADD_ID)
+      strcpy(Data->Table[Data->Table_Size].Id, Data->buffer);
+    else
+    {
+      strcpy(Data->Table[Data->Table_Size].Region, Data->buffer);
+      Data->Table_Size++;
+    }
 
-  SaveCSV(Filename, Data);
+    SaveCSV(Filename, Data);
+  }
+  else {
+    Data->Screen = SCREEN_DUPLICATED;
+  }
 }

@@ -45,6 +45,9 @@ DrawScreen(const char *Filename, cdata *Data)
     case SCREEN_AOE:
       DrawAOE(Filename, Data);
       break;
+    case SCREEN_DUPLICATED:
+      DrawDuplicated(Filename, Data);
+      break;
   }
 }
 
@@ -119,6 +122,19 @@ DrawAOE(const char *Filename, cdata *Data)
 
   tb_string(2, 5, TB_WHITE, TB_BLACK, "Clique ENTER para voltar");
   tb_string(2, 7, SELECTED_FG, SELECTED_BG, "Ok   *");
+}
+
+void
+DrawDuplicated(const char *Filename, cdata *Data)
+{
+  tb_string(2, 1, TB_WHITE, TB_BLACK, "! ERROR !");
+
+  tb_string(2, 3, TB_WHITE, TB_BLACK, "Essa entrada j");
+  tb_char(16, 3, TB_WHITE, TB_BLACK, AS_ACUTE);
+  tb_string(17, 3, TB_WHITE, TB_BLACK, " foi inserida.");
+
+  tb_string(2, 4, TB_WHITE, TB_BLACK, "Clique ENTER para voltar");
+  tb_string(2, 6, SELECTED_FG, SELECTED_BG, "Ok   *");
 }
 
 void
