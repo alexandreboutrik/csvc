@@ -3,6 +3,12 @@
 
 #include "data.h"
 
-void      InsertionSort(cdata *Data);
+/*
+ * why use Insertion?
+ * because its very easy to implement
+ * TODO: use quicksort instead
+ */ 
+
+extern void     InsertionSort(cdata *Data);
 
 #endif

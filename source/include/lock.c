@@ -7,7 +7,11 @@
 
 #include "interface/ui.h"
 
-void
+/*
+ * Read lock.h for more information on how the locking works
+ */ 
+
+extern void
 LockEntry(const char *Id)
 {
   FILE *File;
@@ -20,7 +24,7 @@ LockEntry(const char *Id)
   fclose(File);
 }
 
-int8_t
+extern int8_t
 CheckLock(const char *Id)
 {
   FILE  *File;
@@ -40,21 +44,24 @@ CheckLock(const char *Id)
   return 0;
 }
 
-void
+extern void
 UnlockEntry(const char *Id, cdata *Data)
 {
   FILE *File;
   char  input[256][256];
   int   i, j;
 
+  /* get all the locked entries */
   if ((File = fopen(LOCKFILE, "r")) == NULL)
     return;
   for (i = 0; fscanf(File, "%s", &input[i][0]) != EOF; i++);
   fclose(File);
 
+  /* save the entries back to the lockfile */
   if ((File = fopen(LOCKFILE, "w")) == NULL)
     Error(NULL, errno, "UnlockEntry fopen-w");
   for (j = 0; j < i; j++)
+    /* check if its the entry we want to unlock */
     if (strcmp(input[j], Id))
       fprintf(File, " %s", input[j]);
   fclose(File);

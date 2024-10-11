@@ -9,20 +9,26 @@
 #include "csv.h"
 #include "lock.h"
 
-void
+/*
+ * this is the "messiest" file because it handles all the application logic
+ * regarding input and what to do with it.
+ */ 
+
+static inline void
 ZeroBuffer(cdata *Data)
 {
   bzero(Data->buffer, strlen(Data->buffer));
   Data->bp = 0;
 }
 
-void
+extern void
 ChangeTo(cdata *Data, int8_t SCREEN)
 {
   size_t size;
 
   if (SCREEN == SCREEN_MODIFY)
   {
+    /* if the entry is locked, show the error screen */
     if (CheckLock(Data->Table[Data->sy].Id))
       SCREEN = SCREEN_AOE;
     else if (Data->sx == 0)
@@ -45,9 +51,10 @@ ChangeTo(cdata *Data, int8_t SCREEN)
   Data->Screen = SCREEN;
 }
 
-void
+extern void
 SaveToFile(const char *Filename, cdata *Data)
 {
+  /* this function is only called after SCREEN_MODIFY, so unlock the entry */
   UnlockEntry(Data->Table[Data->sy].Id, Data);
 
   if (Data->sx == 0)
@@ -60,7 +67,7 @@ SaveToFile(const char *Filename, cdata *Data)
   Data->Screen = SCREEN_MENU;
 }
 
-void
+extern void
 HandleInput(const char *Filename, cdata *Data)
 {
   switch(Data->Event.type)
@@ -75,10 +82,19 @@ HandleInput(const char *Filename, cdata *Data)
   }
 }
 
-void
+extern void
 HandleKey(const char *Filename, cdata *Data)
 {
+  /*
+   * AUX is here to avoid cascading effects.
+   */
   int8_t aux = 0;
+
+  /* 
+   * Termbox works with two types of entries, key and ch.
+   * Keys are special keys like CTRL, ARROW, etc.
+   * Ch are character keys (a, b, c, d, ', etc).
+   */
 
   switch (Data->Event.key)
   {
@@ -90,7 +106,7 @@ HandleKey(const char *Filename, cdata *Data)
       else { Data->Screen = SCREEN_MENU; }
       break;
     case TB_KEY_ARROW_UP:
-      if (Data->Screen == SCREEN_MENU || Data->Screen == SCREEN_DELETE) 
+      if (Data->Screen == SCREEN_MENU) 
       { Data->Event.ch = 'w'; }
       break;
     case TB_KEY_ARROW_LEFT:
@@ -98,13 +114,14 @@ HandleKey(const char *Filename, cdata *Data)
       { Data->Event.ch = 'a'; }
       break;
     case TB_KEY_ARROW_DOWN:
-      if (Data->Screen == SCREEN_MENU || Data->Screen == SCREEN_DELETE) 
+      if (Data->Screen == SCREEN_MENU) 
       { Data->Event.ch = 's'; }
       break;
     case TB_KEY_ARROW_RIGHT:
       if (Data->Screen == SCREEN_MENU || Data->Screen == SCREEN_DELETE) 
       { Data->Event.ch = 'd'; }
       break;
+    /* ENTER does different things on different screens */
     case TB_KEY_ENTER:
       if (Data->Screen == SCREEN_MENU) { ChangeTo(Data, SCREEN_MODIFY); aux = 1; }
       else if (Data->Screen == SCREEN_MODIFY) { SaveToFile(Filename, Data); }
@@ -163,6 +180,10 @@ HandleKey(const char *Filename, cdata *Data)
     }
   }
 
+  /*
+   * its way cleaner and efficient to make a separate switch for 
+   * SCREEEN_DELETE instead of IFs on the previous switch
+   */
   else if (Data->Screen == SCREEN_DELETE)
   {
     switch (Data->Event.ch)
@@ -184,6 +205,7 @@ HandleKey(const char *Filename, cdata *Data)
   {
     switch (Data->Event.key)
     {
+      /* remove a character from Data->Buffer */
       case TB_KEY_BACKSPACE:
         Data->bp--;
         Data->buffer[Data->bp] = '\0';
@@ -194,8 +216,10 @@ HandleKey(const char *Filename, cdata *Data)
       (Data->Event.ch >= '0' && Data->Event.ch <= '9') ||
       Data->Event.ch == ' ')
     {
+      /* 18 will be the max size of an entry */
       if (Data->bp < 18)
       {
+        /* add the character to Data->Buffer */
         Data->buffer[Data->bp++] = Data->Event.ch;
         Data->buffer[Data->bp] = '\0';
       }

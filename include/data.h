@@ -5,9 +5,6 @@
 #include <stdint.h>
 #include <termbox.h>
 
-#define FALSE 0
-#define TRUE  1
-
 typedef struct csvtable csvtable;
 struct csvtable
 {
@@ -22,7 +19,6 @@ struct cdata
 {
   int8_t     Screen;        /* current screen to draw */
 
-  int8_t     cindex[65536]; /* index showing which IDs were inserted */
   csvtable   Table[256];    /* array of csvtable */
   uint16_t   Table_Size;    /* table size */
 
@@ -35,7 +31,6 @@ struct cdata
   struct tb_event Event;    /* termbox event */
 };
 
-/* Functions */
-void      InitData(cdata *Data);
+extern void     InitData(cdata *Data);
 
 #endif

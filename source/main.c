@@ -23,11 +23,12 @@ main(int argc, const char *argv[])
   cdata Data;
 
   InitScreen();
-
   InitData(&Data);
 
+  // infinite loop with a 30 ms delay
   while (tb_peek_event(&(Data.Event), 30) != -1)
   {
+    // read the CSV and save its data to Data->Table
     ReadCSV(argv[1], &Data);
 
     ClearScreen();

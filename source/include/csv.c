@@ -14,10 +14,11 @@
 static inline void
 SkipLine(FILE *File)
 {
+  // read until newline
   fscanf(File, "%*[^\n]%*c");
 }
 
-void
+extern void
 ReadCSV(const char *Filename, cdata *Data)
 {
   FILE *File;
@@ -34,6 +35,7 @@ ReadCSV(const char *Filename, cdata *Data)
 
   SkipLine(File);
 
+  // load the file data to Data->Table
   Data->Table_Size = 0;
   while (fscanf(File, "%[^,]%*c \"%[^\n]%*c", Data->Table[Data->Table_Size].Id, Data->Table[Data->Table_Size].Region) != EOF)
   {
@@ -41,12 +43,16 @@ ReadCSV(const char *Filename, cdata *Data)
     Data->Table_Size++;
   }
 
+  // sort the entries by ID
   InsertionSort(Data);
 
   fclose(File);
 }
 
-void
+/*
+ * Save Data->Table to the CSV file
+ */ 
+extern void
 SaveCSV(const char *Filename, cdata *Data)
 {
   FILE *File;
@@ -62,7 +68,12 @@ SaveCSV(const char *Filename, cdata *Data)
   fclose(File);
 }
 
-void
+/*
+ * Delete an entry from the CSV file
+ * first delete it from Data->Table
+ * then use SaveCSV to save Data->Table to file
+ */ 
+extern void
 DeleteCSV(const char *Filename, cdata *Data)
 {
   int i;
@@ -78,7 +89,10 @@ DeleteCSV(const char *Filename, cdata *Data)
   SaveCSV(Filename, Data);
 }
 
-int8_t
+/*
+ * Check if there is already an entry with the ID
+ */ 
+extern int8_t
 CheckDuplicated(cdata *Data)
 {
   int i;
@@ -90,9 +104,10 @@ CheckDuplicated(cdata *Data)
   return 0;
 }
 
-void
+extern void
 AppendCSV(const char *Filename, cdata *Data)
 {
+  /* check if its not an duplicated entry */
   if (! CheckDuplicated(Data))
   {
     if (Data->Screen == SCREEN_ADD_ID)

@@ -3,7 +3,7 @@
 
 #include "data.h"
 
-void      HandleInput(const char *Filename, cdata *Data);
-void      HandleKey(const char *Filename, cdata *Data);
+extern void     HandleInput(const char *Filename, cdata *Data);
+extern void     HandleKey(const char *Filename, cdata *Data);
 
 #endif

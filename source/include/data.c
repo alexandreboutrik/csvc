@@ -2,14 +2,9 @@
 
 #include <stdlib.h>
 
-void
+extern void
 InitData(cdata *Data)
 {
-  int i;
-
-  for (i = 0; i < 65536; i++)
-    Data->cindex[i] = FALSE;
-
   Data->Table_Size = 0;
 
   Data->sx = 0; Data->sy = 0;

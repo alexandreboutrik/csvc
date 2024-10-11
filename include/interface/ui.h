@@ -25,14 +25,12 @@
 #define     OS_TILDE        0x00F5
 #define     US_ACUTE        0x00FA
 
-/* Functions */
+extern void     InitScreen(void);
+extern void     Quit(cdata *Data);
 
-void      InitScreen(void);
-void      Quit(cdata *Data);
+extern void     Error(cdata *Data, const int Errsv, const char* Func);
 
-void      Error(cdata *Data, const int Errsv, const char* Func);
-
-void      CheckWindowSize(cdata *Data);
-void      ClearScreen(void);
+extern void     CheckWindowSize(cdata *Data);
+extern void     ClearScreen(void);
 
 #endif

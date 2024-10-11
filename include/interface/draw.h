@@ -11,15 +11,16 @@
 #define   SCREEN_AOE          5
 #define   SCREEN_DUPLICATED   6
 
-/* Functions */
-void      DrawScreen(const char *Filename, cdata *Data);
+extern void     DrawScreen(const char *Filename, cdata *Data);
 
-void      DrawMenu(const char *Filename, cdata *Data);
-void      DrawModify(const char *Filename, cdata *Data);
-void      DrawCreate_Id(const char *Filename, cdata *Data);
-void      DrawCreate_Region(const char *Filename, cdata *Data);
-void      DrawDelete(const char *Filename, cdata *Data);
-void      DrawAOE(const char *Filename, cdata *Data);
-void      DrawDuplicated(const char *Filename, cdata *Data);
+extern void     DrawMenu(const char *Filename, cdata *Data);
+extern void     DrawModify(const char *Filename, cdata *Data);
+extern void     DrawCreate_Id(const char *Filename, cdata *Data);
+extern void     DrawCreate_Region(const char *Filename, cdata *Data);
+extern void     DrawDelete(const char *Filename, cdata *Data);
+
+/* ERROR screens */
+extern void     DrawAOE(cdata *Data);
+extern void     DrawDuplicated(cdata *Data);
 
 #endif

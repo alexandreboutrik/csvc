@@ -1,7 +1,7 @@
 #include "interface/draw.h"
 
-#include <termbox.h>
 #include <string.h>
+#include <termbox.h>
 
 #include "data.h"
 #include "interface/ui.h"
@@ -9,7 +9,7 @@
 #define SELECTED_BG TB_WHITE
 #define SELECTED_FG TB_GREY
 
-void
+static inline void
 PrintLine(int maxx, int line)
 {
   int i;
@@ -20,7 +20,7 @@ PrintLine(int maxx, int line)
   }
 }
 
-void
+extern void
 DrawScreen(const char *Filename, cdata *Data)
 {
   CheckWindowSize(Data);
@@ -43,15 +43,15 @@ DrawScreen(const char *Filename, cdata *Data)
       DrawDelete(Filename, Data);
       break;
     case SCREEN_AOE:
-      DrawAOE(Filename, Data);
+      DrawAOE(Data);
       break;
     case SCREEN_DUPLICATED:
-      DrawDuplicated(Filename, Data);
+      DrawDuplicated(Data);
       break;
   }
 }
 
-void
+extern void
 DrawModify(const char *Filename, cdata *Data)
 {
   tb_string(2, 1, TB_WHITE, TB_BLACK, "EDIT");
@@ -60,7 +60,7 @@ DrawModify(const char *Filename, cdata *Data)
   tb_char(25+Data->bp, 3, TB_WHITE, TB_BLACK, '\'');
 }
 
-void
+extern void
 DrawCreate_Id(const char *Filename, cdata *Data)
 {
   tb_string(2, 1, TB_WHITE, TB_BLACK, "CREATE");
@@ -69,7 +69,7 @@ DrawCreate_Id(const char *Filename, cdata *Data)
   tb_char(22+Data->bp, 3, TB_WHITE, TB_BLACK, '\'');
 }
 
-void
+extern void
 DrawCreate_Region(const char *Filename, cdata *Data)
 {
   tb_string(2, 1, TB_WHITE, TB_BLACK, "CREATE");
@@ -81,7 +81,7 @@ DrawCreate_Region(const char *Filename, cdata *Data)
   tb_char(27+Data->bp, 4, TB_WHITE, TB_BLACK, '\'');
 }
 
-void
+extern void
 DrawDelete(const char *Filename, cdata *Data)
 {
   int i;
@@ -108,8 +108,8 @@ DrawDelete(const char *Filename, cdata *Data)
     tb_string(12, 5, TB_WHITE, TB_BLACK, "Sim");
 }
 
-void
-DrawAOE(const char *Filename, cdata *Data)
+extern void
+DrawAOE(cdata *Data)
 {
   tb_string(2, 1, TB_WHITE, TB_BLACK, "! ERROR !");
 
@@ -124,8 +124,8 @@ DrawAOE(const char *Filename, cdata *Data)
   tb_string(2, 7, SELECTED_FG, SELECTED_BG, "Ok   *");
 }
 
-void
-DrawDuplicated(const char *Filename, cdata *Data)
+extern void
+DrawDuplicated(cdata *Data)
 {
   tb_string(2, 1, TB_WHITE, TB_BLACK, "! ERROR !");
 
@@ -137,7 +137,7 @@ DrawDuplicated(const char *Filename, cdata *Data)
   tb_string(2, 6, SELECTED_FG, SELECTED_BG, "Ok   *");
 }
 
-void
+extern void
 DrawMenu(const char *Filename, cdata *Data)
 {
   size_t size;

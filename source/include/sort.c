@@ -5,7 +5,7 @@
 
 #include "data.h"
 
-void
+static inline void
 SwapEntry(cdata *Data, int i, int j)
 {
   csvtable Tmp;
@@ -20,7 +20,7 @@ SwapEntry(cdata *Data, int i, int j)
   strcpy(Data->Table[j].Region, Tmp.Region);
 }
 
-void 
+extern void 
 InsertionSort(cdata *Data)
 {
   int i, j;

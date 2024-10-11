@@ -9,7 +9,7 @@
 
 #include "data.h"
 
-void
+extern void
 InitScreen(void)
 {
   if (tb_init() != 0)
@@ -19,7 +19,7 @@ InitScreen(void)
   tb_hide_cursor();
 }
 
-void
+extern void
 Quit(cdata *Data)
 {
   tb_shutdown();
@@ -27,7 +27,7 @@ Quit(cdata *Data)
   exit(EXIT_SUCCESS);
 }
 
-void
+extern void
 Error(cdata *Data, const int Errsv, const char* Func)
 {
   tb_shutdown();
@@ -42,7 +42,7 @@ Error(cdata *Data, const int Errsv, const char* Func)
   exit(EXIT_FAILURE);
 }
 
-void
+extern void
 CheckWindowSize(cdata *Data)
 {
   if (tb_width() < 40)
@@ -53,7 +53,7 @@ CheckWindowSize(cdata *Data)
 }
 
 /* TODO: use tb_clear_screen() instead */
-void
+extern void
 ClearScreen()
 {
   tb_clear_buffer();

@@ -7,8 +7,13 @@
 
 #define   LOCKFILE    "/tmp/csvc.lock"
 
-void      LockEntry(const char *Id);
-int8_t    CheckLock(const char *Id);
-void      UnlockEntry(const char *Id, cdata *Data);
+/*
+ * we use a LOCKFILE to check if the entry is already opened for editing
+ * by another csvc process.
+ */
+
+extern void     LockEntry(const char *Id);
+extern int8_t   CheckLock(const char *Id);
+extern void     UnlockEntry(const char *Id, cdata *Data);
 
 #endif
