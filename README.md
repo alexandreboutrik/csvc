@@ -10,14 +10,14 @@ Talvez no futuro eu organize melhor o código (especialmente o input.c e draw.c)
 Navegue até o diretório e execute o script:
 
 ```bash
-$ ./compile.sh
+$ ./build.sh
 Compiled successfully.
 ```
 
 O executável estará localizado em bin/:
 
 ```bash
-$ ./bin/csvc
+$ ./bin/csvc-x86_64-Linux
 Usage: ./csvc <filename>
 ```
 
@@ -25,7 +25,7 @@ O programa é de uso intuitivo por conta de sua interface gráfica.
 Se quiser, pode utilizar o arquivo CSV que está em testing/:
 
 ```bash
-$ ./bin/csvc testing/data.csv
+$ ./bin/csvc-x86_64-Linux testing/data.csv
 ```
 
 ## License
