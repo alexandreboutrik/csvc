@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdint.h>
 
+#include "data.h"
 #include "interface/draw.h"
 #include "interface/ui.h"
 #include "csv.h"
@@ -132,7 +133,8 @@ HandleKey(const char *Filename, cdata *Data)
     case TB_KEY_ENTER:
       if (Data->Screen == SCREEN_MENU) { ChangeTo(Data, SCREEN_MODIFY); aux = 1; }
       else if (Data->Screen == SCREEN_MODIFY) { SaveToFile(Filename, Data); }
-      else if (Data->Screen == SCREEN_AOE || Data->Screen == SCREEN_DUPLICATED)
+      else if (Data->Screen == SCREEN_AOE || Data->Screen == SCREEN_DUPLICATED ||
+        Data->Screen == SCREEN_TOO_BIG)
       { Data->Screen = SCREEN_MENU; }
       else if (Data->Screen == SCREEN_ADD_ID || Data->Screen == SCREEN_ADD_REGION) 
       {
@@ -179,7 +181,10 @@ HandleKey(const char *Filename, cdata *Data)
         ChangeTo(Data, SCREEN_MODIFY); aux = 1;
         break;
       case 'c': case 'C':
-        ChangeTo(Data, SCREEN_ADD_ID); aux = 1;
+        if (Data->Table_Size < CSV_MAX_SIZE)
+        { ChangeTo(Data, SCREEN_ADD_ID); aux = 1; }
+        else
+        { Data->Screen = SCREEN_TOO_BIG; }
         break;
       case 'r': case 'R':
         ChangeTo(Data, SCREEN_DELETE);
@@ -226,8 +231,8 @@ HandleKey(const char *Filename, cdata *Data)
       (Data->Event.ch >= '0' && Data->Event.ch <= '9') ||
       Data->Event.ch == ' ')
     {
-      /* 18 will be the max size of an entry */
-      if (Data->bp < 18)
+      /* max size of an entry */
+      if (Data->bp < ENTRY_MAX_SIZE)
       {
         /* add the character to Data->Buffer */
         Data->buffer[Data->bp++] = Data->Event.ch;

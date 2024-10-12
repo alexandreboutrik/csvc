@@ -138,6 +138,16 @@ DrawDuplicated(cdata *Data)
 }
 
 extern void
+DrawTooBig(cdata *Data)
+{
+  tb_string(2, 1, TB_WHITE, TB_BLACK, "! ERROR !");
+
+  tb_string(2, 3, TB_WHITE, TB_BLACK, "Limite de entradas atingido.");
+  tb_string(2, 4, TB_WHITE, TB_BLACK, "Clique ENTER para voltar");
+  tb_string(2, 6, SELECTED_FG, SELECTED_BG, "Ok   *");
+}
+
+extern void
 DrawMenu(const char *Filename, cdata *Data)
 {
   size_t size;
@@ -180,7 +190,7 @@ DrawMenu(const char *Filename, cdata *Data)
     {
       size = strlen(Data->Table[i].Region);
       tb_string(12, 5+i, SELECTED_FG, SELECTED_BG, Data->Table[i].Region);
-      for (j = 0; j < 20-size; j++)
+      for (j = 0; j < (ENTRY_MAX_SIZE+2)-size; j++)
         tb_char(12+size+j, 5+i, SELECTED_BG, SELECTED_BG, ' ');
       tb_char(12+size+j-1, 5+i, SELECTED_FG, SELECTED_BG, '*');
     }

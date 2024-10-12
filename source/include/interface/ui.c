@@ -45,7 +45,7 @@ Error(cdata *Data, const int Errsv, const char* Func)
 extern void
 CheckWindowSize(cdata *Data)
 {
-  if (tb_width() < 40)
+  if (tb_width() < (ENTRY_MAX_SIZE*2))
     Error(Data, 0, "tb_width(): not enough columns");
 
   if (tb_height() < 16)

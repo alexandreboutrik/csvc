@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "data.h"
 #include "interface/ui.h"
 #include "sort.h"
 
@@ -22,12 +23,12 @@ extern void
 ReadCSV(const char *Filename, cdata *Data)
 {
   FILE *File;
-  char  input[256];
+  char  input[CSV_MAX_SIZE];
 
   int64_t i;
   char    ch;
 
-  bzero(&input, 256);
+  bzero(&input, CSV_MAX_SIZE);
   Data->Table_Size = 0;
 
   if ((File = fopen(Filename, "r")) == NULL)
@@ -39,6 +40,9 @@ ReadCSV(const char *Filename, cdata *Data)
   Data->Table_Size = 0;
   while (fscanf(File, "%[^,]%*c \"%[^\n]%*c", Data->Table[Data->Table_Size].Id, Data->Table[Data->Table_Size].Region) != EOF)
   {
+    if (Data->Table_Size >= CSV_MAX_SIZE)
+      Error(Data, 1, "ReadCSV: too many entries, CSV is too big");
+
     Data->Table[Data->Table_Size].Region[strlen(Data->Table[Data->Table_Size].Region)-1] = '\0';
     Data->Table_Size++;
   }
