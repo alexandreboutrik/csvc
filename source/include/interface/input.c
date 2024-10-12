@@ -214,8 +214,11 @@ HandleKey(const char *Filename, cdata *Data)
     {
       /* remove a character from Data->Buffer */
       case TB_KEY_BACKSPACE:
-        Data->bp--;
-        Data->buffer[Data->bp] = '\0';
+        if (Data->bp > 0)
+        {
+          Data->bp--;
+          Data->buffer[Data->bp] = '\0';
+        }
         break;
     }
     if ((Data->Event.ch >= 'a' && Data->Event.ch <= 'z') ||
