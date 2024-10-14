@@ -165,7 +165,7 @@ DrawMenu(const char *Filename, cdata *Data)
   tb_string(12, 3, TB_WHITE, TB_BLACK, "Name");
 
   tb_string(3, 5+Data->Table_Size+1, TB_WHITE, TB_BLACK, "(c)reate");
-  tb_string(3, 5+Data->Table_Size+2, TB_WHITE, TB_BLACK, "(e)edit");
+  tb_string(3, 5+Data->Table_Size+2, TB_WHITE, TB_BLACK, "(e)dit");
   tb_string(3, 5+Data->Table_Size+3, TB_WHITE, TB_BLACK, "(r)emove");
 
   tb_char(2, 5+Data->Table_Size+5, TB_WHITE, TB_BLACK, COPYRIGHT);
