@@ -11,6 +11,7 @@
 #define   SCREEN_AOE          5
 #define   SCREEN_DUPLICATED   6
 #define   SCREEN_TOO_BIG      7
+#define   SCREEN_INT_CT       8
 
 extern void     DrawScreen(const char *Filename, cdata *Data);
 
@@ -24,5 +25,6 @@ extern void     DrawDelete(const char *Filename, cdata *Data);
 extern void     DrawAOE(cdata *Data);
 extern void     DrawDuplicated(cdata *Data);
 extern void     DrawTooBig(cdata *Data);
+extern void     DrawIntConstraint(cdata *Data);
 
 #endif

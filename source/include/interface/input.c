@@ -62,14 +62,20 @@ SaveToFile(const char *Filename, cdata *Data)
   if (! CheckDuplicated(Data))
   {
     if (Data->sx == 0)
-      strcpy(Data->Table[Data->sy].Id, Data->buffer);
+    {
+      if (IntegerConstraint(Data->buffer, Data->bp))
+        strcpy(Data->Table[Data->sy].Id, Data->buffer);
+      else
+        Data->Screen = SCREEN_INT_CT;
+    }
 
     if (Data->sx == 1)
       strcpy(Data->Table[Data->sy].Region, Data->buffer);
 
     SaveCSV(Filename, Data);
 
-    Data->Screen = SCREEN_MENU;
+    if (Data->Screen != SCREEN_INT_CT)
+      Data->Screen = SCREEN_MENU;
   } else {
     Data->Screen = SCREEN_DUPLICATED;
   }
@@ -134,7 +140,7 @@ HandleKey(const char *Filename, cdata *Data)
       if (Data->Screen == SCREEN_MENU) { ChangeTo(Data, SCREEN_MODIFY); aux = 1; }
       else if (Data->Screen == SCREEN_MODIFY) { SaveToFile(Filename, Data); }
       else if (Data->Screen == SCREEN_AOE || Data->Screen == SCREEN_DUPLICATED ||
-        Data->Screen == SCREEN_TOO_BIG)
+        Data->Screen == SCREEN_TOO_BIG || Data->Screen == SCREEN_INT_CT)
       { Data->Screen = SCREEN_MENU; }
       else if (Data->Screen == SCREEN_ADD_ID || Data->Screen == SCREEN_ADD_REGION) 
       {
@@ -142,7 +148,7 @@ HandleKey(const char *Filename, cdata *Data)
         ZeroBuffer(Data);
         if (Data->Screen == SCREEN_ADD_ID)
           Data->Screen = SCREEN_ADD_REGION; 
-        else  if (Data->Screen == SCREEN_ADD_REGION)
+        else if (Data->Screen == SCREEN_ADD_REGION)
           Data->Screen = SCREEN_MENU;
         aux = 1;
       }

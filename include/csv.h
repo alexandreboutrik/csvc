@@ -11,5 +11,6 @@ extern void     DeleteCSV(const char *Filename, cdata *Data);
 extern void     AppendCSV(const char *Filename, cdata *Data);
 
 extern int8_t   CheckDuplicated(cdata *Data);
+extern int8_t   IntegerConstraint(const char *string, size_t size);
 
 #endif

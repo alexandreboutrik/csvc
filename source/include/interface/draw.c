@@ -48,6 +48,9 @@ DrawScreen(const char *Filename, cdata *Data)
     case SCREEN_DUPLICATED:
       DrawDuplicated(Data);
       break;
+    case SCREEN_INT_CT:
+      DrawIntConstraint(Data);
+      break;
   }
 }
 
@@ -145,6 +148,17 @@ DrawTooBig(cdata *Data)
   tb_string(2, 3, TB_WHITE, TB_BLACK, "Limite de entradas atingido.");
   tb_string(2, 4, TB_WHITE, TB_BLACK, "Clique ENTER para voltar");
   tb_string(2, 6, SELECTED_FG, SELECTED_BG, "Ok   *");
+}
+
+extern void
+DrawIntConstraint(cdata *Data)
+{
+  tb_string(2, 1, TB_WHITE, TB_BLACK, "! ERROR !");
+
+  tb_string(2, 3, TB_WHITE, TB_BLACK, "ID inválido.");
+  tb_string(2, 4, TB_WHITE, TB_BLACK, "ID deve ser um número inteiro.");
+  tb_string(2, 5, TB_WHITE, TB_BLACK, "Clique ENTER para voltar");
+  tb_string(2, 7, SELECTED_FG, SELECTED_BG, "Ok   *");
 }
 
 extern void

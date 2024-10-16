@@ -9,6 +9,7 @@
 #include <string.h>
 
 #include "data.h"
+#include "interface/draw.h"
 #include "interface/ui.h"
 #include "sort.h"
 
@@ -108,6 +109,18 @@ CheckDuplicated(cdata *Data)
   return 0;
 }
 
+extern int8_t
+IntegerConstraint(const char *string, size_t size)
+{
+  size_t i;
+
+  for (i = 0; i < size; i++)
+    if (string[i] < '0' || string[i] > '9')
+      return 0;
+
+  return 1;
+}
+
 extern void
 AppendCSV(const char *Filename, cdata *Data)
 {
@@ -115,9 +128,12 @@ AppendCSV(const char *Filename, cdata *Data)
   if (! CheckDuplicated(Data))
   {
     if (Data->Screen == SCREEN_ADD_ID)
-      strcpy(Data->Table[Data->Table_Size].Id, Data->buffer);
-    else
     {
+      if (IntegerConstraint(Data->buffer, Data->bp))
+        strcpy(Data->Table[Data->Table_Size].Id, Data->buffer);
+      else
+        Data->Screen = SCREEN_INT_CT;
+    } else {
       strcpy(Data->Table[Data->Table_Size].Region, Data->buffer);
       Data->Table_Size++;
     }
