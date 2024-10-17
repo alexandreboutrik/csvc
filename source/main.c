@@ -1,9 +1,9 @@
-#include <asm-generic/errno-base.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <inttypes.h>
 #include <locale.h>
 #include <termbox.h>
+#include <errno.h>
 
 #include "csv.h"
 #include "interface/ui.h"
